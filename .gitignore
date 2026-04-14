@@ -1,0 +1,54 @@
+# =============================================================================
+# .gitignore — SonarQube Course Project
+# =============================================================================
+
+# SonarQube токены и конфиги с секретами
+.sonar/
+sonar-token.txt
+.sonarqube/
+
+# Переменные окружения (могут содержать пароли/токены)
+.env
+.env.local
+.env.*.local
+*.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+venv/
+.venv/
+env/
+
+# Базы данных SQLite (генерируются приложением)
+*.db
+*.sqlite
+*.sqlite3
+
+# Логи
+*.log
+logs/
+
+# Временные файлы
+*.tmp
+*.bak
+.DS_Store
+Thumbs.db
+
+# Docker volumes (не коммитим данные контейнеров)
+sonarqube_data/
+sonarqube_extensions/
+sonarqube_logs/
+postgresql_data/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
