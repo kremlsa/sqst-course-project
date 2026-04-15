@@ -25,7 +25,7 @@ import os
 import sqlite3
 import subprocess
 import hashlib
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template_string
 
 app = Flask(__name__)
 
@@ -157,6 +157,17 @@ def hash_password_secure(password: str) -> str:
     # Используем SHA-256 с солью (в реальном коде — bcrypt/argon2)
     return hashlib.sha256((salt + password).encode()).hexdigest() + ":" + salt
 
+
+# =============================================================================
+# УЯЗВИМОСТЬ 6: Improper Neutralization of Special Elements
+#               Used in a Template Engine (CWE-1336 / CWE-1336)
+#
+# =============================================================================
+@app.route("/hello", methods=["GET"])
+def hello():
+    name = request.args.get("name", "")
+    template = f"<h1>Hello {name}</h1>"
+    return render_template_string(template)
 
 if __name__ == "__main__":
     init_db()
