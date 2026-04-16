@@ -1,11 +1,13 @@
-# Урок 10: Взаимодействие с разработкой и код-ревью
+# Урок 11: Монорепозитории и многомодульные проекты
 
 ## Что добавлено в этом уроке
 
 | Файл | Описание |
 |------|---------|
-| `.sonarlint/settings.json` | Конфигурация SonarLint для IDE |
-| `.gitlab/merge_request_templates/Default.md` | Шаблон merge request для GitLab |
+| `backend/app.py` | Backend приложение на Python |
+| `backend/utils.py` | Вспомогательные функции backend |
+| `backend/requirements.txt` | Зависимости backend модуля |
+| `backend/sonar-project.properties` | Конфигурация SonarQube для backend |
 
 ## Структура проекта
 
@@ -25,6 +27,11 @@ github_project/
 ├── setup-quality-gate.sh
 ├── scan.sh
 ├── sonar-project.properties
+├── backend/
+│   ├── app.py
+│   ├── requirements.txt
+│   ├── sonar-project.properties
+│   └── utils.py
 ├── frontend/
 │   ├── app.js
 │   └── sonar-project.properties
@@ -81,6 +88,7 @@ github_project/
 | 8 | Анализ разных языков и фреймворков | frontend/app.js, frontend/sonar-project.properties |
 | 9 | Анализ open-source компонентов и зависимостей | vulnerable-app/requirements.txt |
 | 10 | Взаимодействие с разработкой и код-ревью | .sonarlint/settings.json, .gitlab/merge_request_templates/Default.md |
+| 11 | Монорепозитории и многомодульные проекты | backend/app.py, backend/utils.py, backend/requirements.txt, backend/sonar-project.properties |
 
 ## Требования
 
@@ -88,12 +96,17 @@ github_project/
 - **Оперативная память**: минимум 4GB, рекомендуется 8GB
 - **Свободное место на диске**: минимум 5GB
 - **Порт 9000** должен быть свободен для SonarQube
-- **SonarLint плагин** для вашей IDE (VS Code, IntelliJ, etc.)
 
 ## Описание компонентов
 
-### .sonarlint/settings.json
-Конфигурация SonarLint для интеграции с IDE, позволяющая разработчикам получать feedback прямо в редакторе кода при разработке.
+### backend/app.py
+Backend приложение на Python, разделенное в отдельный модуль монорепозитория.
 
-### .gitlab/merge_request_templates/Default.md
-Шаблон merge request для GitLab, включающий пункты для проверки результатов SonarQube сканирования и Security Hotspots перед интеграцией кода.
+### backend/utils.py
+Вспомогательные функции backend модуля.
+
+### backend/requirements.txt
+Зависимости backend части проекта.
+
+### backend/sonar-project.properties
+Конфигурация SonarQube специально для backend модуля монорепозитория, позволяющая сканировать разные части проекта с различными правилами и настройками.

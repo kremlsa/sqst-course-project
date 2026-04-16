@@ -20,8 +20,8 @@ set -euo pipefail
 SONAR_HOST="${SONAR_HOST:-http://host.docker.internal:9000}"
 PROJECT_KEY="${PROJECT_KEY:-vulnerable-app}"
 PROJECT_NAME="${PROJECT_NAME:-OTUS Vulnerable App (Учебный проект)}"
-PROJECT_VERSION="${PROJECT_VERSION:-1.0-lesson10}"
-SOURCES_DIR="vulnerable-app,frontend"
+PROJECT_VERSION="${PROJECT_VERSION:-1.0-lesson11}"
+SOURCES_DIR="backend,frontend"
 
 # ---------- Получить токен ----------------------------------------------
 if [[ -z "${SONAR_TOKEN:-}" ]]; then

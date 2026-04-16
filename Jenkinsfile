@@ -7,7 +7,7 @@ pipeline {
     environment {
         SONAR_PROJECT_KEY  = 'vulnerable-app'
         SONAR_PROJECT_NAME = 'OTUS Vulnerable App'
-        SONAR_PROJECT_VER  = '1.0-lesson10'
+        SONAR_PROJECT_VER  = '1.0-lesson11'
     }
 
     stages {
@@ -25,7 +25,7 @@ pipeline {
             steps {
                 withSonarQubeEnv('SonarQube') {
                     withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
-                        sh 'sonar-scanner -Dsonar.projectKey=${SONAR_PROJECT_KEY} -Dsonar.projectVersion=${SONAR_PROJECT_VER} -Dsonar.sources=vulnerable-app,frontend -Dsonar.token=${SONAR_TOKEN}'
+                        sh 'sonar-scanner -Dsonar.projectKey=${SONAR_PROJECT_KEY} -Dsonar.projectVersion=${SONAR_PROJECT_VER} -Dsonar.sources=backend,frontend -Dsonar.token=${SONAR_TOKEN}'
                     }
                 }
             }

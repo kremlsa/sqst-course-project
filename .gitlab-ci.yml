@@ -1,5 +1,5 @@
-# GitLab CI/CD — SonarQube + OWASP Dependency-Check
-# Урок 9: Анализ зависимостей в CI/CD
+# GitLab CI/CD — многомодульный анализ SonarQube
+# Урок 11: Монорепозитории и многомодульные проекты
 
 image: python:3.11-slim
 
@@ -10,24 +10,29 @@ stages:
 
 variables:
   SONAR_PROJECT_KEY: "vulnerable-app"
-  SONAR_PROJECT_VERSION: "1.0-lesson10"
+  SONAR_PROJECT_VERSION: "1.0-lesson11"
   GIT_DEPTH: "0"
 
-test:
+test-backend:
   stage: test
   script:
-    - echo "Tests passed"
+    - pip install flask --quiet
+    - echo "Backend tests passed"
 
-# Анализ зависимостей на известные CVE
+test-frontend:
+  stage: test
+  image: node:18-alpine
+  script:
+    - echo "Frontend tests passed (placeholder)"
+
 owasp-dependency-check:
   stage: dependency-check
   image: owasp/dependency-check:latest
   script:
     - /usr/share/dependency-check/bin/dependency-check.sh
       --project "vulnerable-app"
-      --scan vulnerable-app/requirements.txt
-      --format JSON
-      --out dependency-check-report.json
+      --scan backend/requirements.txt
+      --format JSON --out dependency-check-report.json
       --failOnCVSS 7
   artifacts:
     paths:
@@ -41,7 +46,7 @@ sonar-scan:
     - sonar-scanner
       -Dsonar.projectKey="${SONAR_PROJECT_KEY}"
       -Dsonar.projectVersion="${SONAR_PROJECT_VERSION}"
-      -Dsonar.sources=vulnerable-app,frontend
+      -Dsonar.sources=backend,frontend
       -Dsonar.host.url="${SONAR_HOST_URL}"
       -Dsonar.token="${SONAR_TOKEN}"
   allow_failure: false
