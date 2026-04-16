@@ -1,10 +1,12 @@
-# Урок 12: Безопасность платформы и контроль доступа в SonarQube
+# Урок 13: Масштабирование и производительность SonarQube
 
 ## Что добавлено в этом уроке
 
 | Файл | Описание |
 |------|---------|
-| `access-policy.md` | Политика управления доступом в SonarQube |
+| `performance/docker-compose.prod.yml` | Production Docker Compose конфигурация |
+| `performance/postgresql.conf` | Оптимизированная конфигурация PostgreSQL |
+| `performance/performance-baseline.md` | Документация по бенчмаркам производительности |
 
 ## Структура проекта
 
@@ -33,6 +35,10 @@ github_project/
 ├── frontend/
 │   ├── app.js
 │   └── sonar-project.properties
+├── performance/
+│   ├── docker-compose.prod.yml
+│   ├── performance-baseline.md
+│   └── postgresql.conf
 └── vulnerable-app/
     ├── app.py
     ├── requirements.txt
@@ -88,15 +94,23 @@ github_project/
 | 10 | Взаимодействие с разработкой и код-ревью | .sonarlint/settings.json, .gitlab/merge_request_templates/Default.md |
 | 11 | Монорепозитории и многомодульные проекты | backend/app.py, backend/utils.py, backend/requirements.txt, backend/sonar-project.properties |
 | 12 | Безопасность платформы и контроль доступа в SonarQube | access-policy.md |
+| 13 | Масштабирование и производительность SonarQube | performance/docker-compose.prod.yml, performance/postgresql.conf, performance/performance-baseline.md |
 
 ## Требования
 
 - **Docker** и Docker Compose
-- **Оперативная память**: минимум 4GB, рекомендуется 8GB
-- **Свободное место на диске**: минимум 5GB
+- **Оперативная память**: минимум 4GB, рекомендуется 8GB (для production рекомендуется 16GB+)
+- **Свободное место на диске**: минимум 5GB (для production рекомендуется 50GB+)
 - **Порт 9000** должен быть свободен для SonarQube
+- **PostgreSQL** для production
 
 ## Описание компонентов
 
-### access-policy.md
-Документ, описывающий политику управления доступом в SonarQube, включая управление пользователями, группами, ролями, разрешениями на проекты и бронирование лучших практик безопасности для платформы.
+### performance/docker-compose.prod.yml
+Production-ready конфигурация Docker Compose с оптимизациями для масштабирования, включая работу с большими объемами данных и высокой нагрузкой.
+
+### performance/postgresql.conf
+Оптимизированная конфигурация PostgreSQL для performance, включая параметры кэширования, индексов и параллельной обработки запросов.
+
+### performance/performance-baseline.md
+Документация с результатами бенчмарков и рекомендациями по оптимизации производительности SonarQube в больших организациях.

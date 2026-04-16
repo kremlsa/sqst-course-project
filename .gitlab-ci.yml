@@ -10,7 +10,7 @@ stages:
 
 variables:
   SONAR_PROJECT_KEY: "vulnerable-app"
-  SONAR_PROJECT_VERSION: "1.0-lesson12"
+  SONAR_PROJECT_VERSION: "1.0-lesson13"
   GIT_DEPTH: "0"
 
 test-backend:

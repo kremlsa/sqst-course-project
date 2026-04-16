@@ -7,7 +7,7 @@ pipeline {
     environment {
         SONAR_PROJECT_KEY  = 'vulnerable-app'
         SONAR_PROJECT_NAME = 'OTUS Vulnerable App'
-        SONAR_PROJECT_VER  = '1.0-lesson12'
+        SONAR_PROJECT_VER  = '1.0-lesson13'
     }
 
     stages {
