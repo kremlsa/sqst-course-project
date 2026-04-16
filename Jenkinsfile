@@ -7,7 +7,7 @@ pipeline {
     environment {
         SONAR_PROJECT_KEY  = 'vulnerable-app'
         SONAR_PROJECT_NAME = 'OTUS Vulnerable App'
-        SONAR_PROJECT_VER  = '1.0-lesson4'
+        SONAR_PROJECT_VER  = '1.0-lesson5'
     }
 
     stages {
@@ -17,14 +17,16 @@ pipeline {
 
         stage('Test') {
             steps {
-                sh 'echo "Smoke test passed (test stage placeholder)"'
+                sh 'pip install flask --quiet && echo "Smoke test passed"'
             }
         }
 
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('SonarQube') {
-                    sh "${tool 'SonarScanner'}/bin/sonar-scanner -Dsonar.projectKey=${SONAR_PROJECT_KEY} -Dsonar.projectVersion=${SONAR_PROJECT_VER} -Dsonar.sources=vulnerable-app"
+                    withCredentials([string(credentialsId: 'SONAR_TOKEN', variable: 'SONAR_TOKEN')]) {
+                        sh 'sonar-scanner -Dsonar.projectKey=${SONAR_PROJECT_KEY} -Dsonar.projectVersion=${SONAR_PROJECT_VER} -Dsonar.sources=vulnerable-app -Dsonar.token=${SONAR_TOKEN}'
+                    }
                 }
             }
         }

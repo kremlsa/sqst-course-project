@@ -1,10 +1,11 @@
-# Урок 4: Интеграция SonarQube с CI/CD (GitLab, Jenkins)
+# Урок 5: Кастомизация Quality Gate, правил и работа с замечаниями
 
 ## Что добавлено в этом уроке
 
 | Файл | Описание |
 |------|---------|
-| `Jenkinsfile` | Конфигурация Jenkins pipeline для автоматизированного сканирования |
+| `quality-gate.json` | Конфигурация Quality Gate с критериями прохождения |
+| `setup-quality-gate.sh` | Скрипт для установки Quality Gate в SonarQube |
 
 ## Структура проекта
 
@@ -12,7 +13,9 @@
 github_project/
 ├── docker-compose.yml
 ├── Jenkinsfile
+├── quality-gate.json
 ├── setup-check.sh
+├── setup-quality-gate.sh
 ├── scan.sh
 ├── sonar-project.properties
 └── vulnerable-app/
@@ -43,7 +46,12 @@ github_project/
    http://localhost:9000
    ```
 
-5. Выполните сканирование проекта:
+5. Установите Quality Gate:
+   ```bash
+   bash setup-quality-gate.sh
+   ```
+
+6. Выполните сканирование проекта:
    ```bash
    bash scan.sh
    ```
@@ -56,6 +64,7 @@ github_project/
 | 2 | Быстрый старт: установка SonarQube и локальное сканирование | scan.sh, vulnerable-app/utils.py |
 | 3 | Основы SAST, OWASP Top 10 и Secure SDLC | (без новых файлов) |
 | 4 | Интеграция SonarQube с CI/CD (GitLab, Jenkins) | Jenkinsfile |
+| 5 | Кастомизация Quality Gate, правил и работа с замечаниями | quality-gate.json, setup-quality-gate.sh |
 
 ## Требования
 
@@ -63,9 +72,11 @@ github_project/
 - **Оперативная память**: минимум 4GB, рекомендуется 8GB
 - **Свободное место на диске**: минимум 5GB
 - **Порт 9000** должен быть свободен для SonarQube
-- **Jenkins** или **GitLab CI** для использования pipeline конфигураций
 
 ## Описание компонентов
 
-### Jenkinsfile
-Декларативная Jenkins pipeline для автоматизированного запуска сканирования SonarQube при каждом коммите, с интеграцией в CI/CD процесс.
+### quality-gate.json
+Конфигурация Quality Gate с условиями, определяющими когда проект считается прошедшим проверку безопасности. Включает пороги для критичности, покрытия кода и других метрик.
+
+### setup-quality-gate.sh
+Скрипт для автоматической загрузки и применения Quality Gate конфигурации к проекту в SonarQube.
