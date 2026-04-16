@@ -1,10 +1,10 @@
-# Урок 6: False Positive / False Negative: системный подход
+# Урок 7: Security Hotspots и митигация уязвимостей
 
 ## Что добавлено в этом уроке
 
 | Файл | Описание |
 |------|---------|
-| `fp-analysis.md` | Документ с анализом ложных срабатываний и пропущенных проблем |
+| `hotspot-review.md` | Документ с рекомендациями по анализу Security Hotspots |
 
 ## Структура проекта
 
@@ -13,6 +13,7 @@ github_project/
 ├── docker-compose.yml
 ├── Jenkinsfile
 ├── fp-analysis.md
+├── hotspot-review.md
 ├── quality-gate.json
 ├── setup-check.sh
 ├── setup-quality-gate.sh
@@ -66,6 +67,7 @@ github_project/
 | 4 | Интеграция SonarQube с CI/CD (GitLab, Jenkins) | Jenkinsfile |
 | 5 | Кастомизация Quality Gate, правил и работа с замечаниями | quality-gate.json, setup-quality-gate.sh |
 | 6 | False Positive / False Negative: системный подход | fp-analysis.md |
+| 7 | Security Hotspots и митигация уязвимостей | hotspot-review.md |
 
 ## Требования
 
@@ -76,5 +78,5 @@ github_project/
 
 ## Описание компонентов
 
-### fp-analysis.md
-Подробное руководство по идентификации и обработке ложных положительных результатов (False Positives) и пропущенных проблем (False Negatives) в результатах SonarQube сканирования. Включает стратегии для улучшения качества сканирования и управления техническим долгом.
+### hotspot-review.md
+Руководство по анализу Security Hotspots в SonarQube - участков кода, где разработчик должен вручную определить, является ли код уязвимым. Включает стратегии рецензирования, методы митигации и примеры исправления уязвимостей.
