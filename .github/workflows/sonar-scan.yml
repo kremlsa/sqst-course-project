@@ -1,0 +1,22 @@
+name: SonarQube
+
+on:
+  workflow_dispatch:
+
+jobs:
+  scan:
+    runs-on: [self-hosted, Linux, X64]
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Debug ref
+        run: |
+          echo "REF=$GITHUB_REF"
+          echo "REF_NAME=$GITHUB_REF_NAME"
+
+      - uses: SonarSource/sonarqube-scan-action@v5
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
