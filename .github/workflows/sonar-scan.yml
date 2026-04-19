@@ -2,7 +2,9 @@ name: SonarQube
 
 on:
   workflow_dispatch:
-  
+  push:
+    tags:
+      - "lesson-03"
 
 jobs:
   scan:
@@ -13,11 +15,13 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Debug ref
+      - name: Sonar scan via CLI Docker image
         run: |
-          echo "REF=$GITHUB_REF"
-          echo "REF_NAME=$GITHUB_REF_NAME"
-
-      - uses: SonarSource/sonarqube-scan-action@v5
+          docker run --rm \
+            -e SONAR_TOKEN="${SONAR_TOKEN}" \
+            -v "${GITHUB_WORKSPACE}:/usr/src" \
+            sonarsource/sonar-scanner-cli \
+            -Dsonar.qualitygate.wait=true \
+            -Dsonar.qualitygate.timeout=300
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
