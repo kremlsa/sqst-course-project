@@ -2,10 +2,7 @@ name: SonarQube
 
 on:
   workflow_dispatch:
-  push:
-    tags:
-      - "lesson-03"
-
+  
 jobs:
   scan:
     runs-on: [self-hosted, Linux, X64]
@@ -18,6 +15,7 @@ jobs:
       - name: Sonar scan via CLI Docker image
         run: |
           docker run --rm \
+            --network=host \
             -e SONAR_TOKEN="${SONAR_TOKEN}" \
             -v "${GITHUB_WORKSPACE}:/usr/src" \
             sonarsource/sonar-scanner-cli \
