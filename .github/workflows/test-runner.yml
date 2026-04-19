@@ -1,0 +1,17 @@
+name: test-runner
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: [self-hosted, linux, x64, sonar]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Show env
+        run: |
+          uname -a
+          whoami
+          docker version
+          pwd
