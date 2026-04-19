@@ -1,0 +1,40 @@
+# Semgrep — правила для анализа vulnerable-app
+# Урок 15: Альтернативы SonarQube
+
+rules:
+  - id: sql-injection-string-format
+    patterns:
+      - pattern: $CON.execute(f"...{$VAR}...")
+      - pattern: $CON.execute("..." + $VAR + "...")
+    message: |
+      SQL Injection: пользовательские данные вставляются напрямую в SQL-запрос.
+      Используйте параметризованные запросы: execute('...WHERE id=?', (user_id,))
+    languages: [python]
+    severity: ERROR
+    metadata:
+      cwe: CWE-89
+      owasp: A03:2021
+
+  - id: command-injection-shell-true
+    pattern: subprocess.check_output(..., shell=True)
+    message: |
+      Command Injection: shell=True опасен при передаче пользовательских данных.
+      Используйте список аргументов: subprocess.check_output(['ping', '-c', '1', host])
+    languages: [python]
+    severity: ERROR
+    metadata:
+      cwe: CWE-78
+      owasp: A03:2021
+
+  - id: hardcoded-password
+    patterns:
+      - pattern: $KEY = "..."
+      - metavariable-regex:
+          metavariable: $KEY
+          regex: '(?i)(password|secret|token|api_key)'
+    message: "Hardcoded credential: используйте переменные среды или secrets manager"
+    languages: [python]
+    severity: WARNING
+    metadata:
+      cwe: CWE-798
+      owasp: A02:2021

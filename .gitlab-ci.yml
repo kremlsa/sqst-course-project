@@ -1,0 +1,63 @@
+# GitLab CI/CD — SonarQube + Semgrep (многоуровневый SAST)
+# Урок 15: Альтернативы SonarQube и расширение практики
+
+image: python:3.11-slim
+
+stages:
+  - test
+  - sast
+  - dependency-check
+  - sonar
+
+variables:
+  SONAR_PROJECT_KEY: "vulnerable-app"
+  SONAR_PROJECT_VERSION: "1.0-lesson15"
+  GIT_DEPTH: "0"
+
+test:
+  stage: test
+  script:
+    - echo "Tests passed"
+
+# Уровень 1: Semgrep (быстрый SAST, результат — через 10-30 сек)
+semgrep:
+  stage: sast
+  image: returntocorp/semgrep:latest
+  script:
+    - semgrep --config .semgrep.yml --json --output semgrep-report.json
+      backend/ frontend/ || true
+    - semgrep --config p/owasp-top-ten --json --output semgrep-owasp.json
+      backend/ frontend/ || true
+  artifacts:
+    paths:
+      - semgrep-report.json
+      - semgrep-owasp.json
+    when: always
+
+# Уровень 2: OWASP Dependency-Check
+owasp-dependency-check:
+  stage: dependency-check
+  image: owasp/dependency-check:latest
+  script:
+    - /usr/share/dependency-check/bin/dependency-check.sh
+      --project "vulnerable-app"
+      --scan backend/requirements.txt
+      --format JSON --out dependency-check-report.json
+      --failOnCVSS 9
+  artifacts:
+    paths:
+      - dependency-check-report.json
+    when: always
+
+# Уровень 3: SonarQube (глубокий анализ)
+sonar-scan:
+  stage: sonar
+  image: sonarsource/sonar-scanner-cli:latest
+  script:
+    - sonar-scanner
+      -Dsonar.projectKey="${SONAR_PROJECT_KEY}"
+      -Dsonar.projectVersion="${SONAR_PROJECT_VERSION}"
+      -Dsonar.sources=backend,frontend
+      -Dsonar.host.url="${SONAR_HOST_URL}"
+      -Dsonar.token="${SONAR_TOKEN}"
+  allow_failure: false

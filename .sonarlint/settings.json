@@ -1,0 +1,9 @@
+{
+  "connectedMode": {
+    "project": {
+      "projectKey": "vulnerable-app"
+    },
+    "serverUrl": "http://localhost:9000"
+  },
+  "comment": "Настройки SonarLint для синхронизации с сервером. Подключить через IDE: SonarLint → Add SonarQube Connection"
+}
