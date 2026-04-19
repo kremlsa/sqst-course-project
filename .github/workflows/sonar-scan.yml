@@ -2,9 +2,7 @@ name: SonarQube
 
 on:
   workflow_dispatch:
-  push:
-    tags:
-      - "lesson-03"
+  
 
 jobs:
   scan:
