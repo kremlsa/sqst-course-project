@@ -46,6 +46,7 @@ jobs:
           out: "reports/dependency-check"
           args: >
             --enableExperimental
+            --nvdApiKey ${{ secrets.NVD_API_KEY }}
             --failOnCVSS 7
 
       - name: Upload pip-audit report
