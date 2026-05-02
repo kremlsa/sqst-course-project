@@ -1,0 +1,59 @@
+name: SCA
+
+on:
+  workflow_dispatch:
+
+jobs:
+  sca:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      security-events: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Install pip-audit
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pip-audit
+
+      - name: Run pip-audit
+        run: |
+          mkdir -p reports/pip-audit
+          pip-audit \
+            -r vulnerable-app/requirements.txt \
+            --format json \
+            --output reports/pip-audit/pip-audit.json
+
+      - name: Run OWASP Dependency-Check
+        uses: dependency-check/Dependency-Check_Action@main
+        with:
+          project: "vulnerable-app"
+          path: "vulnerable-app"
+          format: "ALL"
+          out: "reports/dependency-check"
+          args: >
+            --enableExperimental
+            --failOnCVSS 7
+
+      - name: Upload pip-audit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pip-audit-report
+          path: reports/pip-audit/
+
+      - name: Upload Dependency-Check report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dependency-check-report
+          path: reports/dependency-check/
