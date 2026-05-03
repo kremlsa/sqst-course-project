@@ -31,6 +31,7 @@ app = Flask(__name__)
 DB_PASSWORD = "admin123"          # УЯЗВИМОСТЬ: пароль в коде (CWE-798, A02)
 SECRET_KEY  = "mysecretkey12345"  # УЯЗВИМОСТЬ: секрет в коде (CWE-798, A02)
 API_TOKEN   = "tok_prod_abc123xyz" # УЯЗВИМОСТЬ: токен в коде (CWE-798, A02)
+BROKER_PASSWORD = "admin123321" 
 
 
 def get_db_connection():
